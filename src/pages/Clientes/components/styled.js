@@ -27,36 +27,21 @@ export const Container = styled.section`
 `;
 
 
-export const FormPopup = styled.form`
+export const DivPopUp = styled.div`
+    position: fixed; 
+    top: 50%;
+    left: 50%;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 10px;
+    transform: translate(-50%, -50%);
     justify-content: center;
     display: flex;
     flex-direction: column;
     align-items: center;
-    z-index: 999;
-
-    input{
-        margin: 10px;
-        padding-left: 10px;
-        border-radius: 5px;
-        height: 35px;
-        border: 1px solid #ddd;
-    }
-
-    div{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        flex: 1;
-    }
-
-    #linha1, #linha2, #linha3{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: row;
-        margin: 10px;   
-    }
+    z-index: 2;
+    width: 500px;
+    height: 500px;
 `;
 
 
@@ -96,31 +81,6 @@ export const Legend = styled.legend`
 `;
 
 
-export const Button = styled.button`
-    width: 25%;
-    height: 40px;
-    cursor: pointer;
-    background-color: #050A30;
-    color: white;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    border:0;
-    border-radius: 10px;
-    margin-top: 10px;
-
-    :hover{
-        cursor: pointer;
-        background-color: #233DFF;
-    }
-`;
-
-export const Input = styled.input`
-    border: 1px solid #050A30;
-    border-radius: 10px;
-    width: 210px;
-    height: 25px;
-    padding-left: 10px;
-`;
-
 export const InputMask = styled(ReactInputMask)`
     width: 100%;
     height: 30px;
@@ -130,32 +90,7 @@ export const InputMask = styled(ReactInputMask)`
     margin-top: 10px; 
 `;
 
-
-export const Label = styled.label`
-    color: black;
-    min-width: 100%;
-    font-weight: bolder;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-`;
-
 export const DivCampos = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    flex: 1;
-    padding: 5px;
-`;
-
-export const DivButtons = styled.div`
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-`;
-
-export const Painel = styled.div`
     padding: 20px;
     background-color: white;
     display: flex;
@@ -166,31 +101,4 @@ export const Painel = styled.div`
     flex-direction: row;
     width: 100%;
     justify-content: space-between;
-`;
-
-export const ButtonAcordion = styled.button`
-    background-color: #eee;
-    color: #444;
-    cursor: pointer;
-    width: 100%;
-    text-align: left;
-    border: none;
-    outline: none;
-    transition: 0.1s;
-`;
-
-export const DivColuna = styled.div`
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    flex-direction: row;
-    flex: 1;
-`;
-
-export const DivLinha = styled.div`
-    display: flex;
-    padding: 10px;
-    justify-content: space-between;
-    flex-direction: column;
-    flex: 1;
 `;

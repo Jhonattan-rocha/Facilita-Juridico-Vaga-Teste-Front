@@ -3,6 +3,7 @@ import { toast } from 'react-toastify';
 
 const initialState = {
   clientes: {result: []},
+  route: {result: []}
 }
 // caso precise de mais de um reducer, usar a função combineReducer
 
@@ -34,6 +35,12 @@ export default function recuder(state = initialState, action){
       case type.CLIENTE_BUSCAR_FALURE: {
         toast.error("Erro ao buscar os clientes")
         return state
+      }
+
+      case type.ROUTE_BUSCAR_SUCCESS: {
+        const newState = {...state};
+        newState.route = action.payload;
+        return newState;
       }
       // aqui você pode definir suas ações e como o estado deve ser atualizado
       default:

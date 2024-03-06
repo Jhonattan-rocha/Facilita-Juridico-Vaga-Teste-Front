@@ -5,12 +5,10 @@ import axios from '../../../services/axios';
 
 function* Cliente({payload}){
     try{
-        console.log(payload)
         const response = yield call(axios.post, `/cliente/`, payload);
         yield put(actions.CLIENTE_SUCCESS({...response.data}));
         yield put(actions.CLIENTE_BUSCAR_REQUEST());
     }catch(error){
-        console.log(error)
         yield put(actions.CLIENTE_FALURE({erro: error}));
     }
 }
@@ -46,16 +44,23 @@ function* DeletarCliente({payload}){
         yield put(actions.CLIENTE_DELETAR_SUCCESS({...response.data}));
         yield put(actions.CLIENTE_BUSCAR_REQUEST());
     }catch(error){
-        console.log(error);
         yield put(actions.CLIENTE_DELETAR_FALURE({error: error}));
     }
 }
 
-
+function* BuscarRota({payload = {}}){
+    try{
+        const response = yield call(axios.post, `/cliente_route/`, payload);
+        yield put(actions.ROUTE_BUSCAR_SUCCESS({...response.data}));
+    }catch(error){
+        yield put(actions.ROUTE_BUSCAR_FALURE({erro: error}));
+    }
+}
 
 export default all([
     takeLatest(types.CLIENTE_REQUEST, Cliente),
     takeLatest(types.CLIENTE_EDITAR_REQUEST, EditarCliente),
     takeLatest(types.CLIENTE_BUSCAR_REQUEST, BuscarCliente),
+    takeLatest(types.ROUTE_BUSCAR_REQUEST, BuscarRota),
     takeLatest(types.CLIENTE_DELETAR_REQUEST, DeletarCliente),
 ]);

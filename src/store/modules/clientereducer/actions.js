@@ -89,3 +89,24 @@ export function CLIENTE_DELETAR_FALURE(payload){
         payload: payload,  
     };
 }
+
+export function ROUTE_BUSCAR_REQUEST(payload){
+    return {
+        type: types.ROUTE_BUSCAR_REQUEST,
+        payload: payload,  
+    };
+}
+
+export function ROUTE_BUSCAR_SUCCESS(payload){
+    return {
+        type: types.ROUTE_BUSCAR_SUCCESS,
+        payload: payload,  
+    };
+}
+
+export function ROUTE_BUSCAR_FALURE(payload){
+    return {
+        type: types.ROUTE_BUSCAR_FALURE,
+        payload: payload,  
+    };
+}

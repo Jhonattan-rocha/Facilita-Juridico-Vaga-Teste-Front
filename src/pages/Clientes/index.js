@@ -1,24 +1,26 @@
 import React, { useEffect } from "react";
 
-import { Painel, Form, Container, Legend, InputMask as ReactInputMask, DivBotoesClientesNavegacao, ClienteItem, DivContainerPrincipal, DropDownField } from "./styles";
+import { DivCampos, DivListClients, Container, Legend, InputMask as ReactInputMask, DivBotoesClientesNavegacao, ClienteItem, DivContainerPrincipal, DropDownField, Button } from "./styles";
 import { FaTrash, FaUserEdit } from "react-icons/fa";
 import { AiOutlineSearch, AiOutlineUserAdd } from "react-icons/ai";
-
 import { useDispatch, useSelector } from 'react-redux';
 import * as actions from '../../store/modules/clientereducer/actions';
 
 import { toast } from 'react-toastify';
 import Editar from './components/Editar';
+import Modal from "./components/Modal";
 
 export default function CadastroCliente(){
 
     const [nome, setNome] = React.useState("");
     const [email, setEmail] = React.useState("");
     const [telefone, setTelefone] = React.useState("");
+    const [cordenadas, setCordenadas] = React.useState([]);
     const [pesquisar, setPesquisar] = React.useState("");
     const [field, setField] = React.useState("");
-
     const clientes = useSelector(state => state.clientereducer.clientes);
+
+    const [isOpen, setIsOpen] = React.useState(false);
     const [mostrar, setMostrar] = React.useState("cad");
     const [clienteSelecionado, setClienteSelecionado] = React.useState({});
     const dispatch = useDispatch();
@@ -28,14 +30,24 @@ export default function CadastroCliente(){
     }, [mostrar, dispatch])
 
     function handleSubmit(e){
+
+        if(cordenadas.length < 2){
+            toast.error("Cordenadas inválidas")
+            return
+        }
+
         e.preventDefault();
         dispatch(actions.CLIENTE_REQUEST({
             nome: nome, 
             email: email, 
-            telefone: telefone.replace(/\D+/g, "")}));
+            telefone: telefone.replace(/\D+/g, ""),
+            cord_x: cordenadas[0].replace(/\D+/g, ""),
+            cord_y: cordenadas[1].replace(/\D+/g, "")
+        }));
         setNome("");
         setEmail("");
         setTelefone("");
+        setCordenadas("");
     }
 
     return (
@@ -49,11 +61,11 @@ export default function CadastroCliente(){
                 {mostrar.match('cad') ?
                     <Container>
 
-                    <Form onSubmit={(e) => handleSubmit(e)}>
+                    <DivListClients onSubmit={(e) => handleSubmit(e)}>
                         <Legend>
                             <p>Cadastro de Clientes</p>  
                         </Legend>
-                        <Painel>
+                        <DivCampos>
                                 <div className="element">
                                     <label className="globalLab">Nome: </label>
                                     <ReactInputMask id="labsNomeF" className="nomeF" type="text" placeholder="Digite o nome" value={nome} onChange={(e) => setNome(e.target.value)} required></ReactInputMask>
@@ -66,23 +78,32 @@ export default function CadastroCliente(){
                                     <label className="globalLab">Telefone: </label>
                                     <ReactInputMask id="labsTel" mask="(99) 99999-9999" maskchar="_" className="labTel" type="text" placeholder="(00) 00000-0000" value={telefone} onChange={(e) => setTelefone(e.target.value)} required />
                                 </div>
-                        </Painel>
+                                <div className="element">
+                                    <label className="globalLab">Cordenadas: </label>
+                                    <ReactInputMask id="labsCord" mask="(9,9)" maskchar="_" className="labsCord" type="text" placeholder="(0,0)" value={cordenadas} onChange={(e) => setCordenadas(String(e.target.value).split(","))} required />
+                                </div>
+                        </DivCampos>
                         <button type="submit" id="submit" name="submit">Cadastrar</button>
-                    </Form>
+                    </DivListClients>
                 </Container>
                 : null}
                 {mostrar.match('list') ?
                 <Container onLoad={() => {
                 }}>
-                    <Form>
+                    <DivListClients>
+                        {isOpen ? <Modal isOpen={isOpen}></Modal>: null}
+                        <Button onClick={(e) => {
+                            e.preventDefault();
+                            setIsOpen(!isOpen);
+                        }}>Rota de clientes</Button>
                         {clientes ? clientes.result.map(cli => {
                             return (
-                                <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%'}}>
+                                <div key={cli.id} style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%'}}>
                                     <ClienteItem onClick={() => {
                                         setClienteSelecionado(cli);
                                         setMostrar('edit')
-                                    }} key={cli.id}>
-                                        <p>{cli.nome}</p>
+                                    }}>
+                                        <p>{cli.nome} {`(${cli.cord_x}, ${cli.cord_y})`}</p>
                                     </ClienteItem>
                                     <FaTrash size={20} cursor={'pointer'} onClick={() => {
                                         dispatch(actions.CLIENTE_DELETAR_REQUEST({id: cli.id}));
@@ -90,7 +111,7 @@ export default function CadastroCliente(){
                                 </div>
                             );
                         }): null}
-                    </Form>
+                    </DivListClients>
                 </Container>
                 : null}
                 {mostrar.match('search') ?
@@ -121,13 +142,13 @@ export default function CadastroCliente(){
                         </DropDownField>
  
                     </div>
-                    <Form>
+                    <DivListClients>
                         {clientes ? clientes.result.map(cli => {
                             return (
                                 <ClienteItem onClick={() => {
-                                    let emps = clientes.find(cl => cl.email === cli.email);
+                                    let cl = clientes.result.find(cl => cl.email === cli.email);
                                     try{
-                                        setClienteSelecionado(emps);
+                                        setClienteSelecionado(cl);
                                         setMostrar('edit');
                                     }catch(err){
                                         toast.error("Não é possível alterar dados de outro usuário")
@@ -137,7 +158,7 @@ export default function CadastroCliente(){
                                 </ClienteItem>
                             );
                         }): null}
-                    </Form>
+                    </DivListClients>
                 </Container>
                 : null}
                 {mostrar.match('edit') ? <Editar cliente={clienteSelecionado} close={() => setMostrar('list')}></Editar> : null}
