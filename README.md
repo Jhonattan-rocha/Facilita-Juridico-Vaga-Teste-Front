@@ -34,4 +34,4 @@ web-vitals: 2.1.4
 
 ## Como iniciar
 
-Primeiro, fazer o comando yarn install/npm i para resolver as dependencias do projeto. Logo após, modificar o arquivo que está em src/config/appConfig.js, com as informações das API, como o ip utilizado e a porta. Depois disso, basta executar um npm run start/yarn run start para iniciar o projeto.
+Primeiro, executar o comando yarn install/npm i para resolver as dependencias do projeto. Logo após, modificar o arquivo que está em src/config/appConfig.js, com as informações das API, como o ip utilizado e a porta. Depois disso, basta executar um npm run start/yarn run start para iniciar o projeto.
