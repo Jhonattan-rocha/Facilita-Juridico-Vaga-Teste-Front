@@ -11,7 +11,7 @@ PostGreSql - v16.2.1
 
 ## Dependencias
 
-@reduxjs/toolkit: 2.2.1
+@reduxjs/toolkit: 2.2.1 \n
 @testing-library/jest-dom: 5.17.0
 @testing-library/react: 13.4.0
 @testing-library/user-event: 13.5.0
