@@ -17,7 +17,7 @@ export default function CadastroCliente(){
     const [telefone, setTelefone] = React.useState("");
     const [cordenadas, setCordenadas] = React.useState([]);
     const [pesquisar, setPesquisar] = React.useState("");
-    const [field, setField] = React.useState("");
+    const [field, setField] = React.useState("nome");
     const clientes = useSelector(state => state.clientereducer.clientes);
 
     const [isOpen, setIsOpen] = React.useState(false);
